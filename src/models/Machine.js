@@ -26,5 +26,5 @@ const machineSchema = new mongoose.Schema(
   },
   { timestamps: true }
 );
-
+machineSchema.index({ reference: 1 }, { unique: true });
 module.exports = mongoose.model('Machine', machineSchema);
