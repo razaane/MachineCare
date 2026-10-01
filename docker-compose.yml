@@ -1,0 +1,33 @@
+services:
+  api:
+    build: .
+    container_name: machinecare-api
+    ports:
+      - "3000:3000"
+    env_file:
+      - .env
+    volumes:
+      - ./:/app
+      - /app/node_modules
+    depends_on:
+      mongo:
+        condition: service_healthy
+    command: npm run dev
+
+  mongo:
+    image: mongo:7
+    container_name: machinecare-mongo
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+    healthcheck:
+      test: echo 'db.runCommand("ping").ok' | mongosh --quiet
+      interval: 5s
+      timeout: 3s
+      retries: 5
+
+volumes:
+  mongo_data:
+
+
