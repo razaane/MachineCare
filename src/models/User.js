@@ -3,21 +3,20 @@ const bcrypt = require('bcryptjs');
 
 const userSchema = new mongoose.Schema(
     {
-        email :{
-            type : string,
-            required : true,
-            trim :true,
-            unique : true,
-            lowercase:true,
+        email: {
+            type: String,
+            required: true,
+            trim: true,
+            unique: true,
+            lowercase: true,
         },
-        password:{
-            type : string,
-            required : true,
+        password: {
+            type: String,
+            required: true,
         },
     },
-    {timestamps:true}
+    { timestamps: true }
 );
-userSchema.index({ email: 1 }, { unique: true });
 
 userSchema.pre('save', async function (next) {
   if (!this.isModified('password')) return next();
@@ -30,4 +29,4 @@ userSchema.methods.comparePassword = function (candidatePassword) {
   return bcrypt.compare(candidatePassword, this.password);
 };
 
-module.exports=mongoose.model('User',userSchema);
+module.exports = mongoose.model('User', userSchema);
