@@ -58,3 +58,53 @@ Ce choix évite les données orphelines (reports pointant vers une machine
 inexistante) mais entraîne la perte de l'historique des pannes de cette
 machine. Il n'y a donc pas de blocage même si la machine possède des
 signalements.
+
+
+## Lancer avec Docker
+
+### Prérequis
+
+- Docker et Docker Compose installés (`docker --version`, `docker compose version`)
+
+### Installation
+
+1. Cloner le dépôt :
+```bash
+   git clone https://github.com/razaane/MachineCare.git
+   cd MachineCare
+```
+
+2. Créer le fichier `.env` à partir de l'exemple :
+```bash
+   cp .env.example .env
+```
+   Puis remplir `JWT_SECRET` avec une valeur de votre choix.
+
+3. Lancer les conteneurs :
+```bash
+   docker compose up --build
+```
+
+4. L'API est accessible sur `http://localhost:3000`. Vérifier avec :
+```bash
+   curl http://localhost:3000/health
+```
+
+### Arrêter les conteneurs
+
+```bash
+docker compose down
+```
+
+Pour supprimer aussi les données MongoDB persistées :
+```bash
+docker compose down -v
+```
+
+### Variables d'environnement
+
+| Variable | Description |
+|---|---|
+| `PORT` | Port d'écoute de l'API (défaut : 3000) |
+| `MONGO_URI` | URI de connexion MongoDB (`mongodb://mongo:27017/machinecare` en Docker) |
+| `JWT_SECRET` | Clé secrète pour signer les tokens JWT |
