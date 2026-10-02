@@ -5,8 +5,8 @@ const app = express();
 app.use(express.json());
 const userRoutes = require('./routes/user.routes');
 app.use('/api', userRoutes);
-app.get('/health', (req, res) => {
-  res.json({ status: 'ok' });
-});
+
+const machineRoutes = require('./routes/machine.routes');
+app.use('/api', machineRoutes);
 
 module.exports= app;

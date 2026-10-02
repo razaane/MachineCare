@@ -6,17 +6,14 @@ const machineSchema = new mongoose.Schema(
       type: String,
       required: true,
       unique: true,
-      trim: true,
     },
     nom: {
       type: String,
       required: true,
-      trim: true,
     },
     atelier: {
       type: String,
       required: true,
-      trim: true,
     },
     statut: {
       type: String,
