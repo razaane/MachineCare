@@ -106,3 +106,32 @@ Toutes les routes (sauf register/login) nécessitent `Authorization: Bearer <tok
 ## Tests
 
 Collection Postman fournie dans `/postman` couvrant le parcours complet.
+
+
+## Parcours d'une requête 
+
+```mermaid
+flowchart LR
+    C[Client / Postman] -->|HTTP| R[Route]
+    R --> M[Middleware auth JWT]
+    M --> CT[Controller]
+    CT --> S[Service<br/>logique métier]
+    S --> RP[Repository]
+    RP --> MD[(Model / MongoDB)]
+    MD --> RP --> S --> CT -->|JSON| C
+
+    R -.->|route inconnue| NF[notFound 404]
+    M -.->|token invalide| EH[errorHandler]
+    S -.->|ApiError| EH
+    EH -->|JSON erreur| C
+```
+
+| Couche | Rôle |
+|---|---|
+| Route | Associe URL + méthode à un controller |
+| Middleware | Vérifie le JWT, met `req.user` |
+| Controller | Reçoit `req`, appelle le service, renvoie `res` |
+| Service | Règles métier (unicité, statuts, existence) |
+| Repository | Requêtes Mongoose |
+| Model | Schéma (User, Machine, Report) |
+| errorHandler | Transforme toute erreur en JSON propre |
