@@ -1,38 +1,38 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
-const reportSchema = new mongoose.Schema(
-  {
+const reportSchema = new mongoose.Schema({
     machine: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'Machine',
-      required: true,
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Machine",
+        required: true
     },
     declaredBy: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'User',
-      required: true,
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User",
+        required: true
     },
     description: {
-      type: String,
-      required: true,
-      trim: true,
-      minlength: 1, 
+        type: String,
+        required: true
     },
     statut: {
-      type: String,
-      enum: ['ouvert', 'en_cours', 'resolu'],
-      default: 'ouvert',
+        type: String,
+        enum: ["ouvert", "en_cours", "resolu"],
+        default: "ouvert"
     },
     resolutionNote: {
-      type: String,
-      default: null,
+        type: String,
+        default: null
     },
     resolvedAt: {
-      type: Date,
-      default: null,
-    },
-  },
-  { timestamps: true }
+        type: Date,
+        default: null
+    }
+},
+{
+    timestamps: true
+}
 );
 
-module.exports = mongoose.model('Report', reportSchema);
+const Report = mongoose.model("Report", reportSchema);
+module.exports = Report;
