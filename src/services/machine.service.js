@@ -1,5 +1,5 @@
 const machineRepository = require("../repositories/machine.repository");
-//const reportRepository = require("../repositories/report.repository"); 
+const reportRepository = require("../repositories/report.repository"); 
 
 const createMachine = async (data) => {
     if (!data.reference) {
@@ -46,6 +46,10 @@ const updateMachine = async (id, data) => {
     if (data.statut && !validStatuts.includes(data.statut)) {
         throw new Error("statut invalide !");
     }
+    if (data.reference && data.reference !== machine.reference) {
+        const dup = await machineRepository.findMachineByReference(data.reference);
+        if (dup) throw new Error("reference deja utilisee !");
+    }
 
     return machineRepository.updateMachineById(id, data);
 };
@@ -55,9 +59,7 @@ const deleteMachine = async (id) => {
     if (!machine) {
         throw new Error("machine introuvable !");
     }
-
-    // politique: cascade -> on supprime les reports lies avant la machine
-    //await reportRepository.deleteReportsByMachine(id);
+    await reportRepository.deleteReportsByMachine(id);
     return machineRepository.deleteMachineById(id);
 };
 
