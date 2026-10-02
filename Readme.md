@@ -48,6 +48,10 @@ npm run dev
 
 L'API est disponible sur `http://localhost:3000`.
 
+
+## Documentation complète des endpoints : voir docs/API.md
+
+
 ## Lancement avec Docker (recommandé)
 
 ```bash
