@@ -12,5 +12,12 @@ async function create(userData) {
 async function updateById(id, updates) {
   return User.findByIdAndUpdate(id, updates, { new: true });
 }
+const findUserById = (id) => {
+    return User.findById(id);
+};
 
-module.exports = { findByEmail, create, updateById };
+const updateUserById = (id, data) => {
+    return User.findByIdAndUpdate(id, data, { new: true });
+};
+
+module.exports = { findByEmail, create, updateById ,findUserById,updateUserById};

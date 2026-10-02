@@ -54,5 +54,27 @@ const login = async (data) => {
     return {token};
 };
 
-module.exports = {register,login}
 
+const getOwnProfile = async (userId) => {
+    const user = await userRepository.findUserById(userId);
+    if (!user) {
+        throw new Error("user introuvable !");
+    }
+    return user;
+};
+
+const updateOwnProfile = async (userId, data) => {
+    if (data.email) {
+        const existingEmail = await userRepository.findUserByEmail(data.email);
+        if (existingEmail && existingEmail._id.toString() !== userId) {
+            throw new Error("ce mail est deja utilise !");
+        }
+    }
+
+    if (data.password) {
+        data.password = await bcrypt.hash(data.password, 10);
+    }
+
+    return userRepository.updateUserById(userId, data);
+};
+module.exports = { register, login, getOwnProfile, updateOwnProfile };

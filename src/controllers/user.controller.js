@@ -34,7 +34,28 @@ const login = async (req, res) => {
     }
 };
 
+
+const getMe = async (req, res) => {
+    try {
+        const user = await userService.getOwnProfile(req.user.userId);
+        res.status(200).json(user);
+    } catch (error) {
+        res.status(404).json({ message: error.message });
+    }
+};
+
+const updateMe = async (req, res) => {
+    try {
+        const user = await userService.updateOwnProfile(req.user.userId, req.body);
+        res.status(200).json({
+            message: "profile updated successfully",
+            user
+        });
+    } catch (error) {
+        res.status(400).json({ message: error.message });
+    }
+};
 module.exports = {
     register,
-    login
+    login, getMe, updateMe
 };
